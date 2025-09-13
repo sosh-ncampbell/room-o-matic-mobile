@@ -1,0 +1,98 @@
+name: 📚 Documentation Issue
+description: Report issues with documentation or suggest improvements
+title: "[DOCS]: "
+labels: ["documentation", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Help us improve the documentation! Whether it's a typo, unclear instructions, or missing information.
+
+  - type: dropdown
+    id: doc-type
+    attributes:
+      label: Documentation Type
+      description: Which type of documentation needs attention?
+      options:
+        - README.md
+        - HELPFUL_PROMPTS.md
+        - Setup/Installation Guides
+        - AI Instructions (.github/instructions/)
+        - Contributing Guidelines
+        - Security Documentation
+        - VS Code Configuration Docs
+        - Code Comments
+        - Other (specify below)
+    validations:
+      required: true
+
+  - type: textarea
+    id: issue-description
+    attributes:
+      label: Issue Description
+      description: What's wrong with the current documentation?
+      placeholder: |
+        Examples:
+        - Information is unclear or confusing
+        - Steps are missing or incorrect
+        - Typos or grammatical errors
+        - Information is outdated
+        - Missing information for specific use cases
+    validations:
+      required: true
+
+  - type: textarea
+    id: location
+    attributes:
+      label: Location
+      description: Where exactly is the issue? (File name, section, line number if known)
+      placeholder: |
+        e.g., README.md, line 45
+        e.g., .github/instructions/language.instructions.md, Python section
+        e.g., HELPFUL_PROMPTS.md, "Go Project Setup" section
+
+  - type: textarea
+    id: suggested-improvement
+    attributes:
+      label: Suggested Improvement
+      description: How should this be fixed or improved?
+      placeholder: |
+        What would make this documentation better?
+        If you have specific text suggestions, include them here.
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact Level
+      description: How does this issue affect users?
+      options:
+        - Low (minor typo or formatting)
+        - Medium (unclear instructions that could confuse users)
+        - High (incorrect information that could cause issues)
+        - Critical (missing information that blocks setup/usage)
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: User Context
+      description: What were you trying to do when you found this issue?
+      placeholder: |
+        e.g., Setting up the workspace for the first time
+        e.g., Looking for Go-specific configuration examples
+        e.g., Troubleshooting VS Code performance issues
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      options:
+        - label: I have checked if this issue already exists
+          required: true
+        - label: I have provided specific location information
+          required: true
+        - label: I have suggested how to improve the documentation
+          required: true

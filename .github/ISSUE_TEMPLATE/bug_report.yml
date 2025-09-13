@@ -1,0 +1,82 @@
+name: 🐛 Bug Report
+description: Create a bug report to help us improve the Ultimate Copilot Workspace
+title: "[BUG]: "
+labels: ["bug", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report! Please provide as much detail as possible.
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: Describe what happened and what you expected to happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Steps to Reproduce
+      description: Detailed steps to reproduce the bug
+      placeholder: |
+        1. Go to '...'
+        2. Run command '...'
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: What should have happened?
+      placeholder: A clear description of what you expected to happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Please provide your environment details
+      placeholder: |
+        - OS: [e.g. macOS 13.0, Windows 11, Ubuntu 22.04]
+        - VS Code Version: [e.g. 1.85.0]
+        - GitHub Copilot Extension Version: [e.g. 1.145.0]
+        - Programming Language: [e.g. Python, Go, TypeScript]
+        - Project Type: [e.g. Web API, CLI tool, React app]
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here
+      placeholder: |
+        - Error messages or logs
+        - Screenshots if applicable
+        - Workarounds you've tried
+        - Impact on your development workflow
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      description: Please confirm you have completed these steps
+      options:
+        - label: I have searched for existing issues before creating this one
+          required: true
+        - label: I have provided detailed reproduction steps
+          required: true
+        - label: I have included my environment details
+          required: true
+        - label: This issue is specific to the Ultimate Copilot Workspace template
+          required: true

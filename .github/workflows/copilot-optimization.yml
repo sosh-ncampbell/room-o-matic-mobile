@@ -1,0 +1,530 @@
+name: 🤖 Copilot Instructions Validation & Quality Gate
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - ".github/copilot-instructions.md"
+      - ".github/instructions/**/*.instructions.md"
+      - ".github/security/**/*.md"
+      - ".github/team-standards/**/*.md"
+      - "src/**/*"
+      - "tests/**/*"
+      - "**/*.go"
+      - "**/*.py"
+      - "**/*.js"
+      - "**/*.ts"
+      - "**/*.java"
+      - "**/*.cs"
+      - "**/*.rs"
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - ".github/copilot-instructions.md"
+      - ".github/instructions/**/*.instructions.md"
+      - ".github/security/**/*.md"
+      - ".github/team-standards/**/*.md"
+      - "src/**/*"
+      - "tests/**/*"
+      - "**/*.go"
+      - "**/*.py"
+      - "**/*.js"
+      - "**/*.ts"
+      - "**/*.java"
+      - "**/*.cs"
+      - "**/*.rs"
+  workflow_dispatch:
+
+env:
+  # Customize these for your project
+  PRIMARY_LANGUAGE: "" # Set to: go, python, javascript, typescript, java, csharp, rust
+  MIN_TEST_COVERAGE: "80"
+  SECURITY_SCAN_ENABLED: "true"
+  PERFORMANCE_TEST_ENABLED: "false"
+
+jobs:
+  validate-copilot-instructions:
+    name: 📋 Validate Copilot Instructions
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛒 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔍 Validate copilot-instructions.md structure
+        run: |
+          echo "🔍 Validating main copilot-instructions.md..."
+
+          # Check if main instruction file exists
+          if [ ! -f ".github/copilot-instructions.md" ]; then
+            echo "❌ .github/copilot-instructions.md not found"
+            exit 1
+          fi
+
+          # Validate required sections
+          required_sections=(
+            "Project Overview"
+            "Architecture Patterns"
+            "Development Standards"
+            "Testing Guidelines"
+            "Security Requirements"
+            "Performance Guidelines"
+            "Development Workflow"
+          )
+
+          for section in "${required_sections[@]}"; do
+            if ! grep -q "## $section" .github/copilot-instructions.md; then
+              echo "❌ Missing required section: $section"
+              exit 1
+            else
+              echo "✅ Found section: $section"
+            fi
+          done
+
+          # Check for customization placeholders
+          if grep -q "\[CUSTOMIZE\]" .github/copilot-instructions.md; then
+            echo "⚠️  Found [CUSTOMIZE] placeholders - consider updating for production"
+            # Don't fail, just warn
+          fi
+
+          echo "✅ Main copilot-instructions.md validation passed"
+
+      - name: 🔍 Validate path-specific instructions
+        run: |
+          echo "🔍 Validating path-specific instruction files..."
+
+          if [ -d ".github/instructions" ]; then
+            for file in .github/instructions/*.instructions.md; do
+              if [ -f "$file" ]; then
+                echo "📄 Validating $file"
+
+                # Check for YAML frontmatter
+                if ! head -n 1 "$file" | grep -q "^---$"; then
+                  echo "❌ $file missing YAML frontmatter"
+                  exit 1
+                fi
+
+                # Check for required frontmatter fields
+                if ! grep -q "applyTo:" "$file"; then
+                  echo "❌ $file missing 'applyTo' field in frontmatter"
+                  exit 1
+                fi
+
+                if ! grep -q "description:" "$file"; then
+                  echo "❌ $file missing 'description' field in frontmatter"
+                  exit 1
+                fi
+
+                echo "✅ $file validation passed"
+              fi
+            done
+          fi
+
+          echo "✅ Path-specific instructions validation passed"
+
+      - name: 🔍 Validate security instructions
+        run: |
+          echo "🔍 Validating security instruction files..."
+
+          if [ -f ".github/security/security-instructions.md" ]; then
+            echo "📄 Validating security-instructions.md"
+
+            # Check for key security sections
+            security_sections=(
+              "Input Validation"
+              "Authentication"
+              "Authorization"
+              "Data Encryption"
+              "Security Logging"
+            )
+
+            for section in "${security_sections[@]}"; do
+              if ! grep -qi "$section" .github/security/security-instructions.md; then
+                echo "⚠️  Security section not found: $section"
+                # Don't fail, different projects may have different security focuses
+              else
+                echo "✅ Found security section: $section"
+              fi
+            done
+
+            echo "✅ Security instructions validation passed"
+          else
+            echo "⚠️  Security instructions not found - consider adding for production"
+          fi
+
+  lint-and-format:
+    name: 🧹 Code Quality & Formatting
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛒 Checkout repository
+        uses: actions/checkout@v4
+
+      # Language-specific linting and formatting
+      # Customize based on your primary language
+
+      - name: 📝 Markdown linting
+        uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          globs: |
+            .github/**/*.md
+            docs/**/*.md
+            README.md
+        continue-on-error: true # Don't fail on markdown linting issues
+
+      - name: 🔍 YAML validation
+        run: |
+          echo "🔍 Validating YAML files..."
+
+          # Install yamllint if available
+          if command -v yamllint >/dev/null 2>&1; then
+            find . -name "*.yml" -o -name "*.yaml" | xargs yamllint
+          else
+            echo "⚠️  yamllint not available, skipping YAML validation"
+          fi
+
+      # Add language-specific linting here based on PRIMARY_LANGUAGE
+      - name: 🔍 Language-specific linting (Go)
+        if: env.PRIMARY_LANGUAGE == 'go'
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+          args: --timeout=5m
+
+      - name: 🔍 Language-specific linting (Python)
+        if: env.PRIMARY_LANGUAGE == 'python'
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 black mypy
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          black --check .
+          mypy . --ignore-missing-imports || true
+
+      - name: 🔍 Language-specific linting (JavaScript/TypeScript)
+        if: env.PRIMARY_LANGUAGE == 'javascript' || env.PRIMARY_LANGUAGE == 'typescript'
+        run: |
+          npm install
+          npm run lint || echo "⚠️  Linting failed or not configured"
+          npm run type-check || echo "⚠️  Type checking failed or not configured"
+
+  security-scan:
+    name: 🔒 Security Scanning
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛒 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔍 Run Trivy vulnerability scanner
+        if: env.SECURITY_SCAN_ENABLED == 'true'
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: "fs"
+          scan-ref: "."
+          format: "sarif"
+          output: "trivy-results.sarif"
+
+      - name: 📊 Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always() && env.SECURITY_SCAN_ENABLED == 'true'
+        with:
+          sarif_file: "trivy-results.sarif"
+
+      - name: 🔍 Secret scanning with TruffleHog
+        if: env.SECURITY_SCAN_ENABLED == 'true'
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: main
+          head: HEAD
+          extra_args: --debug --only-verified
+
+  test-coverage:
+    name: 🧪 Test Coverage Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛒 Checkout repository
+        uses: actions/checkout@v4
+
+      # Language-specific testing
+      # Customize based on your primary language
+
+      - name: 🧪 Run tests (Go)
+        if: env.PRIMARY_LANGUAGE == 'go'
+        run: |
+          if [ -f "go.mod" ]; then
+            go test -v -race -coverprofile=coverage.out ./...
+            go tool cover -func=coverage.out
+
+            # Check coverage threshold
+            coverage=$(go tool cover -func=coverage.out | grep total | awk '{print $3}' | sed 's/%//')
+            if (( $(echo "$coverage < $MIN_TEST_COVERAGE" | bc -l) )); then
+              echo "❌ Test coverage $coverage% is below minimum $MIN_TEST_COVERAGE%"
+              exit 1
+            else
+              echo "✅ Test coverage $coverage% meets minimum requirement"
+            fi
+          else
+            echo "⚠️  No go.mod found, skipping Go tests"
+          fi
+
+      - name: 🧪 Run tests (Python)
+        if: env.PRIMARY_LANGUAGE == 'python'
+        run: |
+          if [ -f "requirements.txt" ] || [ -f "pyproject.toml" ] || [ -f "setup.py" ]; then
+            python -m pip install --upgrade pip
+            pip install pytest pytest-cov
+            if [ -f "requirements.txt" ]; then pip install -r requirements.txt; fi
+
+            pytest --cov=src --cov-report=term --cov-report=xml
+
+            # Check coverage (requires coverage.py)
+            coverage report --fail-under=$MIN_TEST_COVERAGE
+          else
+            echo "⚠️  No Python project files found, skipping Python tests"
+          fi
+
+      - name: 🧪 Run tests (JavaScript/TypeScript)
+        if: env.PRIMARY_LANGUAGE == 'javascript' || env.PRIMARY_LANGUAGE == 'typescript'
+        run: |
+          if [ -f "package.json" ]; then
+            npm install
+            npm test -- --coverage --watchAll=false
+
+            # Coverage check would depend on your test setup (Jest, etc.)
+            echo "✅ JavaScript/TypeScript tests completed"
+          else
+            echo "⚠️  No package.json found, skipping JS/TS tests"
+          fi
+
+      - name: 📊 Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+        continue-on-error: true
+
+  performance-baseline:
+    name: ⚡ Performance Baseline
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛒 Checkout repository
+        uses: actions/checkout@v4
+
+      # Language-specific performance testing
+      - name: ⚡ Run performance tests (Go)
+        if: env.PRIMARY_LANGUAGE == 'go' && env.PERFORMANCE_TEST_ENABLED == 'true'
+        run: |
+          if [ -f "go.mod" ]; then
+            go test -bench=. -benchmem ./... | tee benchmark.txt
+            echo "✅ Go benchmarks completed"
+          fi
+
+      - name: ⚡ Run performance tests (Python)
+        if: env.PRIMARY_LANGUAGE == 'python' && env.PERFORMANCE_TEST_ENABLED == 'true'
+        run: |
+          pip install pytest-benchmark
+          pytest --benchmark-only --benchmark-sort=mean || echo "⚠️  No benchmarks found"
+
+      - name: 📊 Store benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
+        if: env.PERFORMANCE_TEST_ENABLED == 'true'
+        with:
+          tool: "go"
+          output-file-path: benchmark.txt
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true
+        continue-on-error: true
+
+  ai-code-review:
+    name: 🤖 AI Code Review Analysis
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: 🛒 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🤖 Analyze changes for AI review
+        run: |
+          echo "🤖 Analyzing code changes for AI review patterns..."
+
+          # Get changed files
+          git diff --name-only origin/main...HEAD > changed_files.txt
+
+          # Check for common AI code generation patterns that need human review
+          echo "📊 Changed files analysis:"
+          cat changed_files.txt
+
+          # Check for security-sensitive files
+          security_files=$(grep -E '\.(env|config|key|pem|p12|jks)$' changed_files.txt || true)
+          if [ -n "$security_files" ]; then
+            echo "🔒 Security-sensitive files detected:"
+            echo "$security_files"
+            echo "security_review_needed=true" >> $GITHUB_ENV
+          fi
+
+          # Check for database migration files
+          migration_files=$(grep -E '(migration|schema|ddl)' changed_files.txt || true)
+          if [ -n "$migration_files" ]; then
+            echo "🗃️  Database-related files detected:"
+            echo "$migration_files"
+            echo "database_review_needed=true" >> $GITHUB_ENV
+          fi
+
+          # Check for test coverage in changed areas
+          echo "🧪 Checking test coverage for changed files..."
+          # This would need to be customized based on your test structure
+
+      - name: 📝 Add PR comment with review suggestions
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            let reviewComments = ['## 🤖 AI Code Review Analysis\n'];
+
+            if (process.env.security_review_needed === 'true') {
+              reviewComments.push('🔒 **Security Review Required**: Security-sensitive files were modified. Please ensure:');
+              reviewComments.push('- No secrets or credentials are hardcoded');
+              reviewComments.push('- Proper authentication and authorization checks');
+              reviewComments.push('- Input validation and sanitization');
+              reviewComments.push('');
+            }
+
+            if (process.env.database_review_needed === 'true') {
+              reviewComments.push('🗃️ **Database Review Required**: Database-related changes detected. Please verify:');
+              reviewComments.push('- Migration scripts are reversible');
+              reviewComments.push('- Proper indexing and performance considerations');
+              reviewComments.push('- Data integrity and constraints');
+              reviewComments.push('');
+            }
+
+            reviewComments.push('### 📋 Review Checklist');
+            reviewComments.push('- [ ] Code follows established patterns from copilot-instructions.md');
+            reviewComments.push('- [ ] Security best practices are implemented');
+            reviewComments.push('- [ ] Tests provide adequate coverage');
+            reviewComments.push('- [ ] Performance implications considered');
+            reviewComments.push('- [ ] Documentation updated where needed');
+
+            const comment = reviewComments.join('\n');
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+  documentation-validation:
+    name: 📚 Documentation Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛒 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📚 Validate documentation completeness
+        run: |
+          echo "📚 Validating documentation completeness..."
+
+          # Check for README
+          if [ ! -f "README.md" ]; then
+            echo "❌ README.md not found"
+            exit 1
+          fi
+
+          # Check README sections
+          required_readme_sections=(
+            "Installation"
+            "Usage"
+            "Development"
+          )
+
+          for section in "${required_readme_sections[@]}"; do
+            if ! grep -qi "$section" README.md; then
+              echo "⚠️  README missing recommended section: $section"
+            else
+              echo "✅ Found README section: $section"
+            fi
+          done
+
+          # Check for API documentation (if applicable)
+          if [ -f "openapi.yaml" ] || [ -f "swagger.yaml" ] || [ -d "docs/api" ]; then
+            echo "✅ API documentation found"
+          fi
+
+          # Check for architecture documentation
+          if [ -f "docs/architecture.md" ] || [ -d "docs/architecture" ]; then
+            echo "✅ Architecture documentation found"
+          fi
+
+          echo "✅ Documentation validation completed"
+
+  summary:
+    name: 📊 Quality Gate Summary
+    runs-on: ubuntu-latest
+    needs:
+      [
+        validate-copilot-instructions,
+        lint-and-format,
+        security-scan,
+        test-coverage,
+        documentation-validation,
+      ]
+    if: always()
+    steps:
+      - name: 📊 Generate quality report
+        run: |
+          echo "# 📊 Quality Gate Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Check job statuses
+          echo "## 🎯 Job Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ needs.validate-copilot-instructions.result }}" == "success" ]; then
+            echo "✅ Copilot Instructions Validation: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Copilot Instructions Validation: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ needs.lint-and-format.result }}" == "success" ]; then
+            echo "✅ Code Quality & Formatting: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Code Quality & Formatting: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ needs.security-scan.result }}" == "success" ] || [ "${{ needs.security-scan.result }}" == "skipped" ]; then
+            echo "✅ Security Scanning: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Security Scanning: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ needs.test-coverage.result }}" == "success" ]; then
+            echo "✅ Test Coverage: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Test Coverage: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ needs.documentation-validation.result }}" == "success" ]; then
+            echo "✅ Documentation Validation: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Documentation Validation: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🚀 Next Steps" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Review any failed checks above" >> $GITHUB_STEP_SUMMARY
+          echo "- Update copilot-instructions.md with project-specific details" >> $GITHUB_STEP_SUMMARY
+          echo "- Customize language-specific settings in workflow" >> $GITHUB_STEP_SUMMARY
+          echo "- Add project-specific security and performance requirements" >> $GITHUB_STEP_SUMMARY
+
+      - name: ❌ Fail if critical issues found
+        if: |
+          needs.validate-copilot-instructions.result == 'failure' ||
+          needs.security-scan.result == 'failure' ||
+          needs.test-coverage.result == 'failure'
+        run: |
+          echo "❌ Critical quality gate failures detected"
+          exit 1

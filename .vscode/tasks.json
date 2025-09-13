@@ -1,0 +1,615 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "🚀 Setup: Initialize Project",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "echo '🚀 Initializing Ultimate Copilot Project...' && chmod +x ./scripts/setup.sh && ./scripts/setup.sh"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": [],
+      "detail": "Initialize the project with all dependencies and configurations"
+    },
+    {
+      "label": "🔍 Validate: Copilot Instructions",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "echo '🔍 Validating Copilot Instructions...' && find .github -name '*.md' -exec echo 'Checking {}' \\; -exec head -10 {} \\;"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Validate that all Copilot instruction files are properly structured"
+    },
+    {
+      "label": "🧹 Format: All Code",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "echo '🧹 Formatting all code...' && npm run format 2>/dev/null || echo '⚠️  npm format not available' && go fmt ./... 2>/dev/null || echo '⚠️  go fmt not available' && black . 2>/dev/null || echo '⚠️  black not available'"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Format code using language-specific formatters"
+    },
+    {
+      "label": "🧪 Test: Run All Tests",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "echo '🧪 Running all tests...' && npm test 2>/dev/null || go test -v ./... 2>/dev/null || python -m pytest 2>/dev/null || echo '⚠️  No test runner detected'"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [
+        "$go",
+        "$tsc",
+        "$eslint-stylish"
+      ],
+      "detail": "Run tests using the appropriate test runner for your language"
+    },
+    {
+      "label": "📊 Coverage: Generate Test Coverage",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "echo '📊 Generating test coverage...' && npm run test:coverage 2>/dev/null || go test -coverprofile=coverage.out ./... && go tool cover -html=coverage.out -o coverage.html 2>/dev/null || python -m pytest --cov=src --cov-report=html 2>/dev/null || echo '⚠️  Coverage not configured'"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Generate comprehensive test coverage reports"
+    },
+    {
+      "label": "🔒 Security: Run Security Scan",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "echo '🔒 Running security scan...' && npm audit 2>/dev/null || go mod tidy && go list -json -m all | nancy sleuth 2>/dev/null || safety check 2>/dev/null || echo '⚠️  Install security tools (npm audit, nancy, safety)'"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Run security vulnerability scans"
+    },
+    {
+      "label": "⚡ Performance: Run Benchmarks",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "echo '⚡ Running performance benchmarks...' && go test -bench=. -benchmem ./... 2>/dev/null || npm run benchmark 2>/dev/null || python -m pytest --benchmark-only 2>/dev/null || echo '⚠️  No benchmarks configured'"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Run performance benchmarks and profiling"
+    },
+    {
+      "label": "🔧 Build: Development Build",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "echo '🔧 Building for development...' && npm run build:dev 2>/dev/null || go build -o ./bin/app . 2>/dev/null || python setup.py build 2>/dev/null || echo '⚠️  No build script detected'"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [
+        "$go",
+        "$tsc",
+        "$eslint-stylish"
+      ],
+      "detail": "Build the project for development"
+    },
+    {
+      "label": "🚢 Build: Production Build",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "echo '🚢 Building for production...' && npm run build:prod 2>/dev/null || go build -ldflags '-s -w' -o ./bin/app . 2>/dev/null || python setup.py sdist bdist_wheel 2>/dev/null || echo '⚠️  No production build configured'"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [
+        "$go",
+        "$tsc"
+      ],
+      "detail": "Build optimized production version"
+    },
+    {
+      "label": "🐳 Docker: Build Image",
+      "type": "shell",
+      "command": "docker",
+      "args": [
+        "build",
+        "-t",
+        "${workspaceRootFolderName}:latest",
+        "."
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Build Docker image for the project"
+    },
+    {
+      "label": "🔄 Git: Sync with Remote",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "echo '🔄 Syncing with remote...' && git fetch --all && git pull origin main && git push origin HEAD"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Fetch, pull, and push changes to remote repository"
+    },
+    {
+      "label": "📚 Docs: Generate Documentation",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "echo '📚 Generating documentation...' && npm run docs 2>/dev/null || go doc -all . 2>/dev/null || sphinx-build -b html docs docs/_build 2>/dev/null || echo '⚠️  No documentation generator configured'"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Generate project documentation"
+    },
+    {
+      "label": "🧼 Clean: Remove Build Artifacts",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "echo '🧼 Cleaning build artifacts...' && rm -rf ./bin ./dist ./build ./coverage ./node_modules/.cache ./__pycache__ ./target 2>/dev/null && echo '✅ Clean completed'"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Remove all build artifacts and cache files"
+    },
+    {
+      "label": "🔍 Lint: Run All Linters",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "echo '🔍 Running linters...' && npm run lint 2>/dev/null || golangci-lint run 2>/dev/null || flake8 . 2>/dev/null || echo '⚠️  Configure linters for your language'"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [
+        "$eslint-stylish",
+        "$go"
+      ],
+      "detail": "Run static code analysis with linters"
+    },
+    {
+      "label": "🎯 AI: Validate Instruction Files",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "echo '🎯 Validating AI instruction files...' && find .github -name '*.instructions.md' -exec grep -l 'applyTo:' {} \\; && echo '✅ Instruction file validation completed'"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Validate GitHub Copilot instruction file format"
+    },
+    {
+      "label": "🚀 Dev: Start Development Server",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "echo '🚀 Starting development server...' && npm run dev 2>/dev/null || go run . 2>/dev/null || python -m uvicorn main:app --reload 2>/dev/null || python -m flask run 2>/dev/null || echo '⚠️  Configure dev server command for your framework'"
+      ],
+      "group": "build",
+      "isBackground": true,
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [
+        {
+          "pattern": [
+            {
+              "regexp": ".",
+              "file": 1,
+              "location": 2,
+              "message": 3
+            }
+          ],
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "^\\s*$",
+            "endsPattern": "(listening|ready|started|serving)"
+          }
+        }
+      ],
+      "detail": "Start the development server with hot reloading"
+    },
+    {
+      "label": "🎨 Theme: Toggle Dark/Light Mode",
+      "type": "shell",
+      "command": "code",
+      "args": [
+        "--command",
+        "workbench.action.toggleColorTheme"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": false,
+        "reveal": "never"
+      },
+      "problemMatcher": [],
+      "detail": "Toggle between dark and light VS Code themes"
+    },
+    {
+      "label": "📋 Copilot: Open Chat",
+      "type": "shell",
+      "command": "code",
+      "args": [
+        "--command",
+        "github.copilot.openChat"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": false,
+        "reveal": "never"
+      },
+      "problemMatcher": [],
+      "detail": "Open GitHub Copilot Chat"
+    },
+    {
+      "label": "⚙️ Setup: Install Dependencies",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "echo '⚙️ Installing dependencies...' && if [ -f 'package.json' ]; then npm install; fi && if [ -f 'go.mod' ]; then go mod download; fi && if [ -f 'requirements.txt' ]; then pip install -r requirements.txt; fi && if [ -f 'Cargo.toml' ]; then cargo build; fi && echo '✅ Dependencies installed'"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Install all project dependencies based on detected package managers"
+    },
+    {
+      "label": "🌐 Server: Open in Browser",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "echo '🌐 Opening in browser...' && open http://localhost:3000 2>/dev/null || xdg-open http://localhost:3000 2>/dev/null || start http://localhost:3000 2>/dev/null || echo '⚠️  Could not open browser'"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "never"
+      },
+      "problemMatcher": [],
+      "detail": "Open the application in default browser"
+    },
+    {
+      "label": "🔨 .NET: Build",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "--verbosity",
+        "normal"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "panel": "shared"
+      },
+      "problemMatcher": "$msCompile",
+      "detail": "Build .NET project with detailed output",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "🧪 .NET: Test",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "test",
+        "--logger",
+        "console;verbosity=detailed",
+        "--collect:XPlat Code Coverage"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": "$msCompile",
+      "detail": "Run .NET tests with coverage collection"
+    },
+    {
+      "label": "🚀 .NET: Run",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "run"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": "$msCompile",
+      "detail": "Run .NET application"
+    },
+    {
+      "label": "👀 .NET: Watch",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "watch",
+        "run"
+      ],
+      "group": "build",
+      "isBackground": true,
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [
+        {
+          "base": "$msCompile",
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "^info: Microsoft.Hosting.Lifetime",
+            "endsPattern": "^info: Microsoft.Hosting.Lifetime.*Application started\\. Press Ctrl\\+C to shut down\\.$"
+          }
+        }
+      ],
+      "detail": "Run .NET application with hot reload"
+    },
+    {
+      "label": "📦 .NET: Publish",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "publish",
+        "-c",
+        "Release",
+        "-o",
+        "./publish"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": "$msCompile",
+      "detail": "Publish .NET application for production"
+    },
+    {
+      "label": "🧹 .NET: Format",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "format"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Format .NET code using dotnet format"
+    },
+    {
+      "label": "🛡️ .NET: Security Audit",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "echo '🛡️ Running .NET security audit...' && dotnet list package --vulnerable --include-transitive && echo '✅ Security audit complete'"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Check for vulnerable NuGet packages"
+    },
+    {
+      "label": "🗂️ .NET: Add Migration",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "read -p 'Migration name: ' name && dotnet ef migrations add \"$name\""
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Add new Entity Framework migration"
+    },
+    {
+      "label": "🔄 .NET: Update Database",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "ef",
+        "database",
+        "update"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Apply Entity Framework migrations to database"
+    },
+    {
+      "label": "🧪 .NET: Integration Tests",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "test",
+        "--filter",
+        "Category=Integration",
+        "--logger",
+        "console;verbosity=detailed"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": "$msCompile",
+      "detail": "Run integration tests only"
+    },
+    {
+      "label": "📊 .NET: Coverage Report",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "dotnet test --collect:XPlat Code Coverage && reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coverage -reporttypes:Html && echo 'Coverage report generated in ./coverage/index.html'"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Generate detailed code coverage report"
+    },
+    {
+      "label": "🔧 Customize: Project for Language",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "echo '🔧 Project customization wizard...' && echo 'Choose your primary language:' && echo '1. Go' && echo '2. Python' && echo '3. JavaScript/TypeScript' && echo '4. Java' && echo '5. C#/.NET' && echo '6. Rust' && echo '' && echo 'Edit .vscode/settings.json and .github/copilot-instructions.md manually with your choice'"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": [],
+      "detail": "Guide for customizing the project for a specific programming language"
+    }
+  ]
+}
