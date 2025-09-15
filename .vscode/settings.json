@@ -1,5 +1,5 @@
 {
-  "// 🚀 Ultimate GitHub Copilot Optimization Settings": "Configured for maximum AI assistance effectiveness",
+  "// 🚀 Room-O-Matic Mobile Optimization Settings": "Configured for Flutter mobile development with AI assistance",
   "// 🤖 GitHub Copilot Core Settings": "Enable all advanced Copilot features",
   "github.copilot.enable": {
     "*": true
@@ -270,17 +270,40 @@
   "window.restoreWindows": "folders",
   "workbench.settings.enableNaturalLanguageSearch": true,
   "// 🎯 Terminal Enhancement": "Better integrated terminal",
+  "terminal.integrated.defaultProfile.osx": "bash",
   "terminal.integrated.enableMultiLinePasteWarning": "auto",
-  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.fontSize": 10,
   "terminal.integrated.fontWeight": "normal",
+  "terminal.integrated.fontFamily": "'FiraCode Nerd Font Mono', 'Hack Nerd Font Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Consolas', 'Courier New', monospace",
+  "terminal.integrated.env.osx": {
+    "PATH": "/opt/homebrew/opt/ruby/bin:${env:PATH}",
+    "LDFLAGS": "-L/opt/homebrew/opt/ruby/lib",
+    "CPPFLAGS": "-I/opt/homebrew/opt/ruby/include",
+    "ANDROID_HOME": "/Users/nickcampbell/Library/Android/sdk",
+    "ANDROID_SDK_ROOT": "/Users/nickcampbell/Library/Android/sdk"
+  },
+  "terminal.integrated.lineHeight": 1.2,
   "terminal.integrated.gpuAcceleration": "on",
   "terminal.integrated.cursorBlinking": true,
   "terminal.integrated.cursorStyle": "line",
   "terminal.integrated.scrollback": 5000,
+  // Shell Integration Configuration for VS Code and VS Code Insiders
+  // Note: Shell integration is handled automatically by ~/.bashrc and ~/.bashrc_simple
   "terminal.integrated.shellIntegration.enabled": true,
   "terminal.integrated.shellIntegration.decorationsEnabled": "both",
+  "terminal.integrated.shellIntegration.showCommandGuide": true,
   "terminal.integrated.shellIntegration.history": 100,
+  // Advanced shell integration features
+  "terminal.integrated.shellIntegration.suggestEnabled": true,
+  // Sticky scroll and enhanced terminal features
+  "terminal.integrated.stickyScroll.enabled": true,
   "terminal.integrated.suggest.enabled": true,
+  "terminal.integrated.suggest.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+  },
+  "terminal.integrated.suggest.runOnEnter": "never",
   "// 🔧 Workspace Specific Settings": "Project-specific optimizations",
   "workbench.editorAssociations": {
     "*.md": "default",
@@ -321,15 +344,65 @@
   "security.workspace.trust.banner": "always",
   "security.workspace.trust.startupPrompt": "always",
   "security.workspace.trust.enabled": true,
-  "// 🏷️ Custom Tags and Metadata": "Project identification",
+  "// 🏷️ Custom Tags and Metadata": "Project identification - Blue Fox Theme",
   "workbench.colorCustomizations": {
-    "titleBar.activeBackground": "#1f6feb",
-    "titleBar.activeForeground": "#ffffff",
-    "titleBar.inactiveBackground": "#0d1117",
-    "titleBar.inactiveForeground": "#7d8590"
+    // Blue Fox Primary Colors with Boulevard base (18-3906 TCX Boulevard)
+    "titleBar.activeBackground": "#3C3C3C",
+    "titleBar.activeForeground": "#8FA4B3",
+    "titleBar.inactiveBackground": "#2A2A2A",
+    "titleBar.inactiveForeground": "#6B8A9A",
+    // Activity Bar - Boulevard Dark Theme
+    "activityBar.background": "#3C3C3C",
+    "activityBar.foreground": "#8FA4B3",
+    "activityBar.inactiveForeground": "#6B8A9A",
+    "activityBar.border": "#4A4A4A",
+    "activityBarBadge.background": "#8FA4B3",
+    "activityBarBadge.foreground": "#2C3E50",
+    // Side Bar - Boulevard Dark Theme
+    "sideBar.background": "#3C3C3C",
+    "sideBar.foreground": "#E8EDF2",
+    "sideBar.border": "#4A4A4A",
+    "sideBarTitle.foreground": "#8FA4B3",
+    "sideBarSectionHeader.background": "#4A4A4A",
+    "sideBarSectionHeader.foreground": "#B8C6D1",
+    // Editor - Boulevard dark background with Blue Fox accents
+    "editor.background": "#3C3C3C",
+    "editor.foreground": "#E8EDF2",
+    "editor.lineHighlightBackground": "#4A4A4A",
+    "editor.selectionBackground": "#8FA4B3",
+    "editor.selectionHighlightBackground": "#8FA4B380",
+    "editorCursor.foreground": "#B8C6D1",
+    "editorLineNumber.foreground": "#6B8A9A",
+    "editorLineNumber.activeForeground": "#8FA4B3",
+    // Status Bar - Boulevard Dark Theme
+    "statusBar.background": "#3C3C3C",
+    "statusBar.foreground": "#8FA4B3",
+    "statusBar.border": "#4A4A4A",
+    "statusBarItem.hoverBackground": "#4A4A4A",
+    // Tabs - Inverted Blue Fox gradient
+    "tab.activeBackground": "#D1DCE5",
+    "tab.activeForeground": "#5D6D7E",
+    "tab.inactiveBackground": "#8FA4B3",
+    "tab.inactiveForeground": "#2C3E50",
+    "tab.border": "#B8C6D1",
+    // Terminal - Boulevard dark theme with Blue Fox accents
+    "terminal.background": "#3C3C3C",
+    "terminal.foreground": "#E8EDF2",
+    "terminal.ansiBlue": "#8FA4B3",
+    "terminal.ansiCyan": "#B8C6D1",
+    "terminal.ansiBrightBlue": "#6B8A9A",
+    // Highlights and accents
+    "button.background": "#8FA4B3",
+    "button.foreground": "#2C3E50",
+    "button.hoverBackground": "#6B8A9A",
+    "focusBorder": "#8FA4B3",
+    "input.background": "#3C3C3C",
+    "input.border": "#8FA4B3",
+    "input.foreground": "#E8EDF2"
   },
   "// 📝 Customization Reminder": "Remember to customize for your specific project",
   "// CUSTOMIZE_REMINDER": "Update language-specific settings based on your project's primary language and framework",
   "workbench.editor.tabActionLocation": "right",
-  "testing.automaticallyOpenTestResults": "neverOpen"
+  "testing.automaticallyOpenTestResults": "neverOpen",
+  "cmake.ignoreCMakeListsMissing": true
 }

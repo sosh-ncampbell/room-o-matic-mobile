@@ -11,12 +11,12 @@ We actively support and provide security updates for the following versions:
 
 ## Reporting a Vulnerability
 
-We take the security of the Ultimate GitHub Copilot Workspace seriously. If you discover a security vulnerability, please follow these steps:
+We take the security of Room-O-Matic Mobile seriously. If you discover a security vulnerability, please follow these steps:
 
 ### 🔒 Private Reporting (Preferred)
 
 1. **DO NOT** create a public GitHub issue for security vulnerabilities
-2. Use GitHub's [Private Vulnerability Reporting](https://github.com/greysquirr3l/copilot-goat/security/advisories/new) feature
+2. Use GitHub's [Private Vulnerability Reporting](https://github.com/sosh-ncampbell/room-o-matic-mobile/security/advisories/new) feature
 3. Or email security concerns to: [your-security-email@domain.com]
 
 ### 📋 What to Include

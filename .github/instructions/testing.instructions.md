@@ -1,111 +1,192 @@
 ---
 applyTo: "**/test/**/*test*"
-description: "Universal testing patterns and standards for comprehensive test coverage across all languages and frameworks"
-references:
-  - testing_guide: "{CUSTOMIZE: Link to your testing documentation}"
-  - language_testing_docs: "{CUSTOMIZE: Language-specific testing framework docs}"
+description: "Essential testing patterns and standards"
 ---
 
-# Universal Testing Standards and Patterns
+# Universal Testing Standards
 
-## Core Testing Philosophy
+## Core Philosophy
+- **Test Behavior, Not Implementation**: Focus on what code does, not how
+- **Mobile-First Testing**: Prioritize Flutter widget tests, platform integration, and sensor validation
+- **Security-First**: 100% coverage for biometric auth, encryption, and sensor data handling
+- **Coverage Priorities**: Security components 100%, sensor algorithms 100%, UI components 80%, platform channels 90%
 
-### Test Behavior, Not Implementation
+## Test Organization
+- **Unit Tests**: Domain logic, sensor fusion algorithms, security utilities
+- **Widget Tests**: Flutter UI components, camera overlays, AR interfaces
+- **Integration Tests**: Platform channel communication, sensor data flow
+- **Golden Tests**: UI consistency across devices and screen sizes
+- **Platform Tests**: Native iOS (XCTest) and Android (Espresso) implementations
 
-- Focus on what the code does, not how it does it
-- Test public interfaces and contracts
-- Avoid testing private methods directly
-- Ensure tests remain valid when refactoring implementation
+## Essential Patterns
 
-### Coverage Prioritization
+### Arrange-Act-Assert (AAA) - Flutter Example
+```dart
+test('should_start_room_scan_when_user_authenticated', () {
+    // ARRANGE: Set up test data and mocks
+    final mockSensorService = MockSensorService();
+    final mockAuthService = MockAuthService();
+    when(mockAuthService.isAuthenticated()).thenReturn(true);
+    when(mockSensorService.startScan()).thenReturn(Stream.value(SensorData()));
 
-1. **Critical Business Logic**: 100% coverage required
-2. **Public APIs**: 90% coverage minimum
-3. **Integration Points**: 85% coverage minimum
-4. **Utility Functions**: 80% coverage minimum
-
-## Test Organization Standards
-
-### File Structure Conventions
-
-```text
-[CUSTOMIZE for your language]
-- Co-located tests: `src/module.ext` → `src/module.test.ext`
-- Separated tests: `tests/unit/module.test.ext`
-- Integration tests: `tests/integration/feature.integration.test.ext`
-- E2E tests: `tests/e2e/workflow.e2e.test.ext`
-```
-
-### Test Categories
-
-- **Unit Tests**: Single component/function testing
-- **Integration Tests**: Component interaction testing
-- **Contract Tests**: API/Interface contract validation
-- **End-to-End Tests**: Complete user workflow testing
-
-## Language-Agnostic Test Patterns
-
-### Arrange-Act-Assert (AAA) Pattern
-
-```text
-[Template - adapt to your language syntax]
-
-test("should_do_something_when_condition") {
-    // ARRANGE: Set up test data and dependencies
-    const testData = createTestData();
-    const mockDependency = createMock();
+    final scanController = RoomScanController(mockSensorService, mockAuthService);
 
     // ACT: Execute the behavior being tested
-    const result = systemUnderTest.performAction(testData);
+    scanController.startScan();
 
     // ASSERT: Verify the expected outcome
-    expect(result).toBe(expectedValue);
-    expect(mockDependency).toHaveBeenCalledWith(expectedArgs);
-}
-```
-
-### Table-Driven Test Pattern
-
-```text
-[Template - adapt to your language syntax]
-
-const testCases = [
-    {
-        name: "valid_input_returns_success",
-        input: { value: "valid" },
-        expected: { success: true },
-        shouldError: false
-    },
-    {
-        name: "invalid_input_returns_error",
-        input: { value: "" },
-        expected: null,
-        shouldError: true,
-        expectedError: "ValidationError"
-    }
-];
-
-testCases.forEach(testCase => {
-    test(testCase.name, () => {
-        // Test implementation using testCase data
-    });
+    expect(scanController.isScanning, true);
+    verify(mockSensorService.startScan()).called(1);
 });
 ```
 
-### Test Data Factory Pattern
+### Table-Driven Tests - Flutter/Dart
+```dart
+final testCases = [
+    {'name': 'valid_distance', 'input': 2.5, 'expected': true},
+    {'name': 'zero_distance', 'input': 0.0, 'expected': false},
+    {'name': 'negative_distance', 'input': -1.0, 'expected': false},
+    {'name': 'max_distance', 'input': 50.0, 'expected': true},
+];
 
-```text
-[Template - adapt to your language]
+for (final testCase in testCases) {
+    test(testCase['name'] as String, () {
+        final result = isValidDistance(testCase['input'] as double);
+        expect(result, testCase['expected']);
+    });
+}
+```
 
-class TestDataFactory {
-    static createUser(overrides = {}) {
-        return {
-            id: "test-user-123",
-            email: "test@example.com",
-            name: "Test User",
-            createdAt: new Date("2023-01-01"),
-            ...overrides
+### Test Data Factory - Flutter/Dart
+```dart
+class RoomScanFactory {
+    static RoomScan create({Map<String, dynamic> overrides = const {}}) {
+        final defaults = {
+            'id': 'scan-123',
+            'userId': 'user-456',
+            'dimensions': RoomDimensions(length: 4.0, width: 3.0, height: 2.5),
+            'createdAt': DateTime.now(),
+            'sensorData': <SensorReading>[],
         };
+
+        final merged = {...defaults, ...overrides};
+        return RoomScan.fromMap(merged);
+    }
+
+    static SensorReading createSensorReading({Map<String, dynamic> overrides = const {}}) {
+        return SensorReading(
+            type: SensorType.lidar,
+            value: 2.5,
+            timestamp: DateTime.now(),
+            accuracy: 0.02,
+            ...overrides,
+        );
+    }
+}
+
+// Usage: final scan = RoomScanFactory.create(overrides: {'userId': 'custom-user'});
+```
+        ## Mocking Patterns
+
+### Dependency Injection Mocking
+```typescript
+// Create mock dependencies
+const mockRepository = {
+    save: jest.fn().mockResolvedValue(user),
+    findById: jest.fn().mockResolvedValue(user)
+};
+
+// Inject mocks into system under test
+const userService = new UserService(mockRepository);
+
+// Verify interactions
+expect(mockRepository.save).toHaveBeenCalledWith(expectedUser);
+```
+
+### Error Testing
+```typescript
+test("should_handle_repository_error") {
+    // Arrange
+    mockRepository.save.mockRejectedValue(new Error("Database error"));
+
+    // Act & Assert
+    expect(() => userService.createUser(userData))
+        .rejects.toThrow("Database error");
+}
+```
+
+## Language-Specific Quick Commands
+
+### Dart/Flutter Testing
+```bash
+flutter test                           # Run all tests
+flutter test --coverage               # Run with coverage
+flutter test test/unit/               # Run specific test suite
+flutter test --watch                  # Watch mode
+flutter test --reporter json         # JSON output
+dart run test                        # Run Dart tests only
+```
+
+### Framework Examples
+
+#### Dart/Flutter
+```dart
+// Widget test
+testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  await tester.pumpWidget(MyApp());
+  expect(find.text('0'), findsOneWidget);
+  await tester.tap(find.byIcon(Icons.add));
+  await tester.pump();
+  expect(find.text('1'), findsOneWidget);
+});
+
+// Unit test with mock
+test('should create user when valid data provided', () {
+  final mockRepo = MockUserRepository();
+  when(mockRepo.save(any)).thenReturn(User(id: '123'));
+
+  final service = UserService(mockRepo);
+  final result = service.createUser('test@email.com');
+
+  expect(result.id, '123');
+  verify(mockRepo.save(any)).called(1);
+});
+```
+
+#### JavaScript/TypeScript
+```typescript
+describe('UserService', () => {
+  test('should create user successfully', async () => {
+    const mockRepo = { save: jest.fn().mockResolvedValue(user) };
+    const service = new UserService(mockRepo);
+
+    const result = await service.createUser(userData);
+
+    expect(result).toEqual(expectedUser);
+    expect(mockRepo.save).toHaveBeenCalledWith(userData);
+  });
+});
+```
+
+## Essential Testing Guidelines
+
+### What to Test
+- **Public interfaces and contracts**
+- **Error handling and edge cases**
+- **Business logic and validation rules**
+- **Integration points and external dependencies**
+
+### What NOT to Test
+- **Private implementation details**
+- **Third-party library internals**
+- **Generated code (unless business critical)**
+- **Simple getters/setters without logic**
+
+### Quality Metrics
+- **Test Coverage**: Aim for 80%+ overall, 100% for critical paths
+- **Test Speed**: Unit tests <100ms, integration tests <1s
+- **Test Reliability**: Zero flaky tests, deterministic outcomes
+- **Test Maintainability**: Clear naming, minimal duplication, easy updates
     }
 
     static createValidationError(field, message) {

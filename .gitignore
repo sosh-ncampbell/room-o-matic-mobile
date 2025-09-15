@@ -1,4 +1,4 @@
-# Ultimate GitHub Copilot Workspace .gitignore
+# Room-O-Matic Mobile .gitignore
 # Comprehensive cross-platform gitignore for universal project compatibility
 
 # =============================================================================
@@ -17,7 +17,7 @@ Thumbs.db
 .LSOverride
 Icon?
 
-# macOS Directories
+# macOS Directories and files
 .DocumentRevisions-V100
 .fseventsd
 .Spotlight-V100
@@ -25,6 +25,29 @@ Icon?
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
+.com.apple.quarantine
+.localized
+
+# macOS metadata and preference files
+.apdisk
+.com.apple.metadata_never_index
+
+# macOS Finder alternate data streams
+.com.apple.FinderInfo
+
+# macOS file manager settings
+.CFUserTextEncoding
+
+# Xcode User settings
+xcuserdata/
+
+# Xcode project settings
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+
+# Xcode workspace settings
+!*.xcworkspace/contents.xcworkspacedata
+*.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
 
 # Windows
 Thumbs.db
@@ -94,28 +117,60 @@ tramp
 *.sublime-workspace
 *.sublime-project
 
-# Eclipse
-.metadata
-.gradle/
-bin/
-tmp/
-*.tmp
-*.bak
-*.swp
-*~.nib
+# Android
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
 local.properties
-.settings/
-.loadpath
-.recommenders
-.project
-.classpath
-.factorypath
-.buildpath
-.target
-.tern-project
-.texlipse
-.springBeans
-.recommenders/
+
+# Android Studio Navigation editor temp files
+.navigation/
+
+# Android Studio captures folder
+captures/
+
+# Android Keystore files
+*.jks
+*.keystore
+
+# External native build folder generated in Android Studio 2.2 and later
+.externalNativeBuild
+
+# Google Services (e.g. APIs or Firebase)
+google-services.json
+
+# Freeline
+freeline.py
+freeline/
+freeline_project_description.json
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+fastlane/readme.md
+
+# Version control
+vcs.xml
+
+# lint
+lint/intermediates/
+lint/generated/
+lint/outputs/
+lint/tmp/
+lint-results.xml
 
 # Xcode
 build/
@@ -136,6 +191,22 @@ xcuserdata/
 *.ipa
 *.dSYM.zip
 *.dSYM
+
+# CocoaPods
+ios/Pods/
+ios/Podfile.lock
+
+# Carthage
+ios/Carthage/Build/
+
+# fastlane specific
+ios/fastlane/report.xml
+ios/fastlane/Preview.html
+ios/fastlane/screenshots
+ios/fastlane/test_output
+
+# Code Injection
+iOSInjectionProject/
 
 # =============================================================================
 # Programming Language Specific
@@ -230,10 +301,19 @@ go.work.sum
 go.work
 
 # Java
+# Compiled class files
 *.class
+
+# Log files
 *.log
+
+# BlueJ files
 *.ctxt
+
+# Mobile Tools for Java (J2ME)
 .mtj.tmp/
+
+# Package Files
 *.jar
 *.war
 *.nar
@@ -241,8 +321,60 @@ go.work
 *.zip
 *.tar.gz
 *.rar
+
+# Virtual machine crash logs
 hs_err_pid*
 replay_pid*
+
+# Java annotation processor (APT)
+.apt_generated/
+.apt_generated_test/
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+gradlew
+gradlew.bat
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+/out/
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
 
 # Rust
 target/
@@ -251,19 +383,66 @@ target/
 Cargo.lock
 
 # C/C++
+# Compiled Object files
+*.slo
+*.lo
 *.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
 *.a
 *.lib
+
+# Executables
+*.exe
 *.out
 *.app
 *.i*86
 *.x86_64
 *.hex
-core
+
+# Debug files
 *.dSYM/
 *.su
 *.idb
 *.pdb
+
+# Kernel Module Compile Results
+*.mod*
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
+
+# CMake
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
 
 # C#/.NET
 bin/
@@ -320,6 +499,7 @@ lib/bundler/man/
 Gemfile.lock
 
 # Swift
+# Xcode
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
 !*.xcodeproj/xcshareddata/
@@ -327,9 +507,63 @@ Gemfile.lock
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
 
+# Swift Package Manager
+.build/
+.swiftpm/
+Package.resolved
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Swift intermediate files
+*.swiftdoc
+*.swiftmodule
+*.swiftsourceinfo
+
 # Kotlin
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# Kotlin/Native
+*.kexe
+*.klib
+
+# Kotlin multiplatform
+**/commonMain/**/kotlin
+**/commonTest/**/kotlin
+**/jsMain/**/kotlin
+**/jsTest/**/kotlin
+**/jvmMain/**/kotlin
+**/jvmTest/**/kotlin
+**/nativeMain/**/kotlin
+**/nativeTest/**/kotlin
+
+# Kotlin compiler internal files
+*.kotlin_module
+
+# Android Kotlin extensions
 *.kt~
 .kotlin/
+
+# IntelliJ
+.idea/
+*.iws
+*.iml
+*.ipr
+/out/
+
+# Gradle
+.gradle/
+/build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
 
 # Dart/Flutter
 .dart_tool/
@@ -343,6 +577,32 @@ flutter_*.png
 linked_*.ds
 unlinked.ds
 unlinked_spec.ds
+
+# Flutter iOS specific
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+ios/Runner/GeneratedPluginRegistrant.*
+
+# Flutter Android specific
+android/.gradle
+android/captures/
+android/gradlew
+android/gradlew.bat
+android/local.properties
+android/app/debug
+android/app/profile
+android/app/release
+android/key.properties
+
+# Flutter web
+web/
+
+# Flutter coverage
+coverage/
+
+# Flutter integration test
+test/integration_test.dart.snapshot_blob
 
 # =============================================================================
 # Web Development
@@ -573,7 +833,7 @@ coverage-reports/
 *~
 
 # =============================================================================
-# Project Specific (Ultimate Copilot Workspace)
+# Project Specific (Room-O-Matic Mobile)
 # =============================================================================
 
 # Keep template structure but ignore user customizations
@@ -594,6 +854,12 @@ scripts/user-*
 docs/generated/
 docs/api/
 
+# Room-O-Matic specific ignores (preserve user additions)
+scripts/goat/
+docs/goat/
+docs/dev/
+
+# Internal wiki setup file
 INTERNAL_WIKI_SETUP_GUIDE.md
 
 # =============================================================================
@@ -630,3 +896,8 @@ INTERNAL_WIKI_SETUP_GUIDE.md
 
 # Prevent accidental commit of large files (>100MB should use Git LFS)
 # This is just a reminder - git hooks would be needed for enforcement
+
+reference_materials/rust-room-o-matic/
+reference_materials/rust-room-o-matic/
+reference_materials/rust-room-o-matic-mobile/
+reference_materials/rust-room-o-matic-frontend/
