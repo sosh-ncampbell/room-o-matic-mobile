@@ -1,6 +1,6 @@
-# Contributing to Ultimate GitHub Copilot Workspace (G.O.A.T) 🚀
+# Contributing to Room-O-Matic Mobile 🚀
 
-First off, thank you for considering contributing to the Ultimate GitHub Copilot Workspace! This project exists to help developers maximize their AI-assisted development productivity, and community contributions are essential to achieving that goal.
+First off, thank you for considering contributing to Room-O-Matic Mobile! This project is a security-first Flutter mobile application for room measurement and spatial data collection using native sensors, and community contributions are essential to achieving that goal.
 
 ## 🎯 How You Can Contribute
 
@@ -13,8 +13,8 @@ First off, thank you for considering contributing to the Ultimate GitHub Copilot
 ### 💡 Suggest Features & Enhancements
 - Open a GitHub issue with the "enhancement" label
 - Describe the use case and expected behavior
-- Explain how it improves the Copilot development experience
-- Consider backward compatibility
+- Explain how it improves room measurement capabilities or user experience
+- Consider mobile platform compatibility (iOS/Android)
 
 ### 📚 Improve Documentation
 - Fix typos, grammar, or unclear instructions
@@ -24,9 +24,10 @@ First off, thank you for considering contributing to the Ultimate GitHub Copilot
 
 ### 🔧 Submit Code Changes
 - Bug fixes and performance improvements
-- New language support and patterns
-- Additional VS Code optimizations
-- Enhanced AI instruction templates
+- New sensor integration patterns
+- Mobile platform optimizations (iOS/Android)
+- Enhanced security implementations
+- Flutter widget and platform channel improvements
 
 ## 🚀 Getting Started
 
@@ -34,18 +35,21 @@ First off, thank you for considering contributing to the Ultimate GitHub Copilot
 
 1. **Fork and Clone**
    ```bash
-   git clone https://github.com/greysquirr3l/copilot-goat.git
-   cd copilot-goat
+   git clone https://github.com/sosh-ncampbell/room-o-matic-mobile.git
+   cd room-o-matic-mobile
    ```
 
 2. **Setup Development Environment**
    ```bash
+   # Verify Flutter installation
+   flutter doctor
+
    # Run the setup script
    ./scripts/quick-install.sh
 
    # Or manual setup
    chmod +x scripts/*.sh
-   ./scripts/setup-git-enhancements.sh
+   flutter pub get
    ```
 
 3. **Create Feature Branch**
@@ -63,12 +67,13 @@ First off, thank you for considering contributing to the Ultimate GitHub Copilot
 - Test your changes thoroughly
 - Update documentation as needed
 
-#### AI Instruction Contributions
-When contributing to `.github/instructions/` files:
-- Follow the established pattern format
-- Include code examples for multiple languages when applicable
-- Test AI instructions with GitHub Copilot
-- Ensure patterns promote security and best practices
+#### Flutter/Mobile Development Contributions
+When contributing to Flutter code or mobile platform integration:
+- Follow Dart/Flutter conventions (camelCase, PascalCase)
+- Include platform channel implementations for both iOS and Android
+- Test with real devices and various sensor configurations
+- Ensure security-first patterns (biometric auth, encrypted storage)
+- Follow Clean Architecture + DDD patterns
 
 #### VS Code Configuration Changes
 - Test with multiple VS Code versions
@@ -99,29 +104,30 @@ type(scope): description
 
 ### Examples
 ```
-feat(ai-instructions): add Rust error handling patterns
+feat(sensors): add LiDAR integration for iOS platform
 
-fix(vscode): resolve extension conflict with Python
+fix(auth): resolve biometric authentication on Android 12+
 
-docs(readme): update installation instructions
+docs(setup): update Flutter development environment guide
 
-style(markdown): fix formatting in contributing guide
+style(dart): fix formatting in sensor service classes
 
-refactor(scripts): improve error handling in setup script
+refactor(platform-channels): improve error handling in native modules
 
-test(validation): add tests for AI instruction validation
+test(integration): add platform channel communication tests
 
-chore(deps): update VS Code extension recommendations
+chore(deps): update Flutter and platform dependencies
 ```
 
 ## 🔍 Pull Request Process
 
 ### Before Submitting
 1. **Test Your Changes**
-   - Verify in clean environment
-   - Test with different project types
-   - Ensure VS Code optimizations work
-   - Validate AI instruction improvements
+   - Test on both iOS and Android devices
+   - Verify sensor integration with real hardware
+   - Test in various room environments and lighting conditions
+   - Validate security implementations (biometric auth, encryption)
+   - Run Flutter widget and integration tests
 
 2. **Update Documentation**
    - Update README.md if needed
@@ -149,10 +155,11 @@ Brief description of changes
 - [ ] Other (please describe)
 
 ## Testing
-- [ ] Tested in clean environment
-- [ ] Tested with multiple languages/frameworks
-- [ ] AI instructions validated with GitHub Copilot
-- [ ] VS Code settings tested
+- [ ] Tested on iOS devices (physical and simulator)
+- [ ] Tested on Android devices (physical and emulator)
+- [ ] Sensor integration validated with real hardware
+- [ ] Security features tested (biometric auth, encryption)
+- [ ] Flutter tests passing (unit, widget, integration)
 
 ## Checklist
 - [ ] Code follows project style guidelines
@@ -171,11 +178,11 @@ Brief description of changes
 
 When contributing, please keep these principles in mind:
 
-### 🧠 AI-First Development
-- Optimize for GitHub Copilot effectiveness
-- Provide comprehensive context for AI understanding
-- Include examples that demonstrate best practices
-- Consider how changes impact AI suggestion quality
+### 📱 Mobile-First Development
+- Optimize for mobile performance and battery life
+- Prioritize security in all sensor data handling
+- Follow platform-specific design guidelines (iOS/Android)
+- Consider device capabilities and graceful degradation
 
 ### 🚀 Universal Compatibility
 - Support multiple programming languages
@@ -204,9 +211,10 @@ We use the following labels to categorize issues and PRs:
 - **documentation**: Documentation related
 - **good first issue**: Good for newcomers
 - **help wanted**: Extra attention needed
-- **language-support**: Adding new language support
-- **ai-instructions**: AI instruction improvements
-- **vscode-config**: VS Code configuration changes
+- **platform-ios**: iOS-specific implementations
+- **platform-android**: Android-specific implementations
+- **sensors**: Sensor integration improvements
+- **security**: Security and privacy enhancements
 - **security**: Security-related changes
 - **performance**: Performance improvements
 
@@ -240,16 +248,16 @@ We are committed to providing a welcoming and inspiring community for all. Pleas
 ## 📊 Project Roadmap
 
 ### Current Focus Areas
-- Enhanced multi-language support
-- Advanced AI instruction patterns
-- Performance optimizations
-- Extended MCP server integrations
+- Platform channel implementation (iOS/Android)
+- Sensor fusion and data processing
+- Security infrastructure (biometric auth, encryption)
+- Real-time room scanning and measurement
 
 ### Future Goals
-- AI-powered code review integration
-- Advanced testing frameworks
-- Enterprise security enhancements
-- Cloud deployment templates
+- Advanced sensor fusion algorithms
+- Cloud backup and synchronization
+- Enterprise room data management
+- Machine learning for measurement accuracy
 
 ## 🆘 Getting Help
 
@@ -271,6 +279,6 @@ By contributing to this project, you agree that your contributions will be licen
 
 ---
 
-**Thank you for helping make the Ultimate GitHub Copilot Workspace even better!** 🚀
+**Thank you for helping make Room-O-Matic Mobile even better!** 🚀
 
-Every contribution, no matter how small, helps developers worldwide maximize their AI-assisted development productivity.
+Every contribution, no matter how small, helps create a more accurate, secure, and user-friendly room measurement application.

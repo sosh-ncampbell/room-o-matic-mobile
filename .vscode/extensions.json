@@ -1,0 +1,99 @@
+{
+    "recommendations": [
+        // 🎯 Dart/Flutter Core Development (Primary Language)
+        "dart-code.dart-code",
+        "dart-code.flutter",
+        "nash.awesome-flutter-snippets",
+        "alexisvt.flutter-snippets",
+        "gornivv.vscode-flutter-files",
+        "robert-brunhage.flutter-riverpod-snippets",
+        "jeroen-meijer.pubspec-assist",
+        // 🏗️ Clean Architecture & Domain-Driven Design
+        "usernamehw.errorlens",
+        "oderwat.indent-rainbow",
+        "streetsidesoftware.code-spell-checker",
+        "ms-vscode.vscode-json",
+        // 🔄 Code Generation & Freezed Support
+        "quicktype.quicktype",
+        "mohsen1.prettify-json",
+        "redhat.vscode-yaml",
+        // 🧪 Testing & Quality Assurance
+        "hbenl.vscode-test-explorer",
+        "ryanluker.vscode-coverage-gutters",
+        "ms-vscode.test-adapter-converter",
+        // 🔒 Security & Authentication (Biometric, Encryption)
+        "ms-vscode.vscode-security",
+        "snyk-security.snyk-vulnerability-scanner",
+        "github.vscode-github-actions",
+        // 📱 Mobile Development & Native Integration
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools",
+        "twxs.cmake",
+        "ms-azuretools.vscode-docker",
+        // 🎨 UI/UX Development & AR Features
+        "pkief.material-icon-theme",
+        "formulahendry.auto-rename-tag",
+        "formulahendry.auto-close-tag",
+        // 📊 JSON Serialization & Data Management
+        "ms-vscode.vscode-json",
+        "redhat.vscode-yaml",
+        // 🔧 Development Tools & AI Assistance
+        "github.copilot",
+        "github.copilot-chat",
+        "ms-vscode.vscode-intellicode",
+        "visualstudioexptteam.vscodeintellicode",
+        // 📝 Documentation & Comments
+        "yzhang.markdown-all-in-one",
+        "davidanson.vscode-markdownlint",
+        "bierner.markdown-mermaid",
+        "shd101wyy.markdown-preview-enhanced",
+        // � API Development & Testing
+        "humao.rest-client",
+        "rangav.vscode-thunder-client",
+        "42crunch.vscode-openapi",
+        // 🔍 Debugging & Performance
+        "ms-vscode.vscode-trace-viewer",
+        "vadimcn.vscode-lldb",
+        "webfreak.debug",
+        // 🔄 Version Control & Collaboration
+        "eamodio.gitlens",
+        "github.vscode-pull-request-github",
+        "ms-vscode.vscode-merge-conflict",
+        "donjayamanne.githistory",
+        // ⚡ Performance & Productivity
+        "formulahendry.code-runner",
+        "alefragnani.bookmarks",
+        "sleistner.vscode-fileutils",
+        // 🎨 Theme & Visual Enhancement (Blue Fox Theme Compatible)
+        "zhuangtongfa.material-theme",
+        "github.github-vscode-theme",
+        "akamud.vscode-theme-onedark",
+        // 🌈 Accessibility & Code Quality
+        "deque-systems.vscode-axe-linter",
+        "ms-vscode.vscode-accessibility"
+    ],
+    "unwantedRecommendations": [
+        // ❌ Avoid conflicting Dart/Flutter extensions
+        "flutter.flutter",
+        "dart-lang.dart",
+        // ❌ Avoid non-Dart language extensions that might interfere
+        "ms-python.python",
+        "ms-dotnettools.csharp",
+        "golang.go",
+        "ms-vscode.vscode-typescript",
+        "rust-lang.rust-analyzer",
+        // ❌ Avoid formatters that conflict with Dart formatting
+        "esbenp.prettier-vscode",
+        "hookyqr.beautify",
+        "ms-vscode.vscode-json-format",
+        // ❌ Avoid heavy extensions that slow Flutter development
+        "ms-vscode.node-debug",
+        "ms-vscode.node-debug2",
+        "bradlc.vscode-tailwindcss",
+        // ❌ Avoid duplicate functionality
+        "orta.vscode-jest",
+        "ms-vscode.powershell",
+        "ms-vscode.remote-containers",
+        "ms-vscode-remote.remote-containers"
+    ]
+}

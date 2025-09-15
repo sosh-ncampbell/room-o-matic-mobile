@@ -1,83 +1,80 @@
-# 🚀 Ultimate GitHub Copilot Instructions Template
+# 🚀 Room-O-Matic Mobile: GitHub Copilot Instructions
 
 ## Project Overview
 
-[CUSTOMIZE]: Replace with your project description
+**Project Name**: Room-O-Matic Mobile
+**Primary Language**: Dart/Flutter
+**Framework/Stack**: Flutter Mobile with Native Platform Integration
+**Architecture Pattern**: Clean Architecture + Domain-Driven Design
+**Domain**: Mobile Room Measurement & Spatial Data Collection
 
-**Project Name**: [YOUR_PROJECT_NAME]
-**Primary Language**: [YOUR_PRIMARY_LANGUAGE]
-**Framework/Stack**: [YOUR_TECH_STACK]
-**Architecture Pattern**: [e.g., Clean Architecture, MVC, Microservices, etc.]
-**Domain**: [e.g., E-commerce, Financial Services, Healthcare, etc.]
-
-### Tech Stack Template
+### Tech Stack
 
 ```text
-Primary Language: [Go/Python/TypeScript/Java/C#/Rust/etc.]
-Framework: [Express/FastAPI/Spring Boot/ASP.NET/Gin/etc.]
-Database: [PostgreSQL/MongoDB/MySQL/Redis/etc.]
-Cache: [Redis/Memcached/In-Memory/etc.]
-Message Queue: [RabbitMQ/Apache Kafka/AWS SQS/etc.]
-Container: [Docker/Podman/etc.]
-Orchestration: [Kubernetes/Docker Compose/etc.]
-Testing: [Jest/pytest/Go testing/JUnit/etc.]
-CI/CD: [GitHub Actions/GitLab CI/Jenkins/etc.]
+Primary Language: Dart/Flutter
+Framework: Flutter 3.24+ with platform channels
+Mobile Platforms: iOS (14.0+), Android (API 24+)
+Native Languages: Swift (iOS), Kotlin (Android)
+Sensors: LiDAR, ToF, Camera, Sonar, IMU, GPS
+State Management: Riverpod
+Data Layer: Floor/Drift (SQLite), Secure Storage
+Authentication: Biometric (TouchID/FaceID/Fingerprint)
+Testing: Flutter Test, XCTest (iOS), Espresso (Android)
+CI/CD: GitHub Actions with platform-specific builds
 ```
 
 ## 🏗️ Architecture Patterns
 
-[CUSTOMIZE]: Select and customize your architecture pattern
-
 ### Clean Architecture + Domain-Driven Design
 
 ```text
-- Domain Layer: Core business logic, entities, value objects
-- Application Layer: Use cases, application services, DTOs
-- Infrastructure Layer: External concerns (database, APIs, etc.)
-- Interface Layer: Controllers, presenters, external interfaces
+- Domain Layer: Room scanning entities, sensor fusion, measurement algorithms
+- Application Layer: Scan commands/queries, security handlers, upload services
+- Infrastructure Layer: Platform channels, native sensors, secure storage
+- Interface Layer: Flutter UI, platform channel handlers, camera overlays
 ```
 
-### Alternative Patterns (Choose One)
+### Mobile-Specific Patterns
+- **Platform Channels**: Dart ↔ Native (Swift/Kotlin) communication
+- **Sensor Fusion**: Multi-sensor data combination (LiDAR + Camera + IMU)
+- **Security-First**: Biometric auth, encrypted storage, secure upload
+- **Real-time Processing**: Stream-based sensor data with background isolates
 
-- **MVC**: Model-View-Controller for web applications
-- **Microservices**: Distributed services with clear boundaries
-- **Event-Driven**: Async communication via events
-- **Layered Architecture**: Traditional n-tier architecture
-- **Hexagonal Architecture**: Ports and adapters pattern
-
-## 📁 Directory Structure Template
-
-[CUSTOMIZE]: Adapt to your language and architecture
+## 📁 Directory Structure
 
 ```text
-project-root/
-├── src/                          # Source code
-│   ├── domain/                   # Core business logic
-│   ├── application/              # Use cases and services
-│   ├── infrastructure/           # External dependencies
-│   └── interfaces/               # Controllers, handlers
-├── tests/                        # Test files
-│   ├── unit/                     # Unit tests
-│   ├── integration/              # Integration tests
-│   └── e2e/                      # End-to-end tests
-├── docs/                         # Documentation
-├── scripts/                      # Build and utility scripts
-├── configs/                      # Configuration files
-└── deployments/                  # Deployment manifests
+room-o-matic-mobile/
+├── lib/                          # Flutter Dart code
+│   ├── domain/                   # Room entities, sensor models
+│   ├── application/              # Scan use cases, security services
+│   ├── infrastructure/           # Platform channels, repositories
+│   └── interface/                # UI screens, controllers
+├── src/                          # Native platform code
+│   ├── iOS/                      # Swift sensor implementations
+│   └── android/                  # Kotlin sensor implementations
+├── test/                         # Flutter tests
+│   ├── unit/                     # Dart unit tests
+│   ├── widget/                   # Widget tests
+│   └── integration_test/         # Platform integration tests
+├── ios/                          # iOS project configuration
+├── android/                      # Android project configuration
+└── docs/                         # Implementation guides
 ```
 
 ## 🎯 Development Standards
 
 ### Naming Conventions
 
-[CUSTOMIZE]: Adapt to your language conventions
+**Dart/Flutter Conventions:**
+- **Classes/Enums**: PascalCase (`RoomScan`, `SensorType`)
+- **Functions/Variables**: camelCase (`startScan`, `sensorData`)
+- **Constants**: camelCase with `k` prefix (`kMaxScanDuration`)
+- **Files**: snake_case (`room_scan_controller.dart`)
+- **Platform Channels**: Reverse domain (`com.roomomatic.sensors`)
 
-**[LANGUAGE_SPECIFIC]** Examples:
-- **Go**: PascalCase for exported, camelCase for unexported
-- **Python**: snake_case for functions/variables, PascalCase for classes
-- **JavaScript/TypeScript**: camelCase for variables/functions, PascalCase for classes/interfaces
-- **Java/C#**: PascalCase for classes/methods, camelCase for variables
-- **Rust**: snake_case for functions/variables, PascalCase for types
+**Native Platform Conventions:**
+- **Swift**: PascalCase classes, camelCase methods
+- **Kotlin**: PascalCase classes, camelCase functions
 
 ### File Organization Patterns
 
@@ -102,88 +99,84 @@ Documentation alongside relevant code
 
 ## 🧪 Testing Guidelines
 
-[CUSTOMIZE]: Adapt to your testing framework
-
-### Testing Strategy
+### Flutter Testing Strategy
 
 ```text
-- Unit Tests: Test individual components in isolation
-- Integration Tests: Test component interactions
-- End-to-End Tests: Test complete user workflows
-- Performance Tests: Load and stress testing
-- Security Tests: Vulnerability and penetration testing
+- Unit Tests: Business logic, sensor fusion algorithms
+- Widget Tests: UI components, camera overlays
+- Integration Tests: Platform channel communication
+- Golden Tests: UI consistency across devices
+- Platform Tests: Native sensor implementations (XCTest/Espresso)
 ```
 
-### Test Patterns
+### Mobile-Specific Test Patterns
 
 ```text
-- Arrange-Act-Assert (AAA) pattern
-- Test data factories for consistent test data
-- Mock external dependencies
-- Table-driven tests for multiple scenarios
-- Parallel test execution where appropriate
+- Mock sensor data for consistent testing
+- Pump and settle for widget animations
+- Platform channel mocking for native features
+- Biometric authentication testing with mock responses
+- Camera and AR overlay screenshot testing
 ```
 
 ### Coverage Requirements
 
 ```text
-- Unit Tests: [80%] minimum coverage for business logic
-- Integration Tests: [60%] minimum coverage overall
-- Critical Path: [100%] coverage for critical business functions
+- Sensor algorithms: 100% coverage
+- Security components: 100% coverage
+- UI components: 80% coverage
+- Platform channels: 90% coverage
 ```
 
 ## 🔒 Security Requirements
 
-[CUSTOMIZE]: Add domain-specific security requirements
-
-### Security Standards
+### Mobile Security Standards
 
 ```text
-- Input validation and sanitization
-- SQL injection prevention (parameterized queries)
-- Authentication and authorization on all endpoints
-- Secrets management (environment variables, secret managers)
-- TLS/HTTPS for all external communications
-- Rate limiting on public APIs
-- Comprehensive audit logging for security events
-- Data encryption at rest and in transit
+- Biometric authentication (TouchID/FaceID/Fingerprint) required
+- AES-256 encryption for local room scan data
+- Certificate pinning for server communications
+- No sensitive data in logs or crash reports
+- Secure keychain/keystore for API tokens
+- Runtime application self-protection (RASP)
+- Code obfuscation for release builds
 ```
 
-### Domain-Specific Security
+### Room Scanning Privacy
 
 ```text
-[Add requirements specific to your domain]
-- PCI DSS compliance (for payment processing)
-- HIPAA compliance (for healthcare)
-- GDPR compliance (for EU data processing)
-- SOX compliance (for financial reporting)
+- Location data anonymization
+- User consent for camera/microphone access
+- Local processing preferred over cloud
+- Automatic data expiration policies
+- GDPR compliance for EU users
+- No personally identifiable information in scan metadata
 ```
 
 ## ⚡ Performance Guidelines
 
-[CUSTOMIZE]: Add language and domain-specific performance patterns
-
-### Performance Patterns
+### Mobile Performance Patterns
 
 ```text
-- Database connection pooling
-- Caching strategies (Redis, in-memory, CDN)
-- Asynchronous processing where appropriate
-- Pagination for large datasets
-- Query optimization and indexing
-- Resource cleanup and memory management
-- Performance monitoring and profiling
+- Background isolates for sensor data processing
+- Efficient memory management for point clouds
+- Battery optimization with sensor duty cycling
+- Frame rate optimization for AR overlays
+- Compressed data formats for uploads
+- Lazy loading for scan history
+- Device capability detection and adaptation
 ```
 
-### Language-Specific Optimizations
+### Flutter/Dart Optimizations
 
 ```text
-[Add language-specific performance patterns]
-- Go: Goroutines, channels, sync package usage
-- Python: AsyncIO, multiprocessing, caching decorators
-- JavaScript: Event loop optimization, worker threads
-- Java: JVM tuning, garbage collection optimization
-- C#: Memory management, async/await patterns
+- StreamBuilder for real-time sensor data
+- Compute() for CPU-intensive calculations
+- RepaintBoundary for complex widgets
+- Image caching for camera frames
+- Platform channel batching
+- Tree shaking for smaller app size
+- AOT compilation for release builds
 ```
 
 ## 🚀 Development Workflow
@@ -227,159 +220,94 @@ Example: feat(auth): add JWT token refresh mechanism
 - Architecture pattern compliance
 ```
 
-## 📚 Documentation Integration Strategy
+## 📚 Documentation References
 
-[CUSTOMIZE]: Reference your existing documentation
-
-### Smart Reference System
-
-For comprehensive technical documentation, use references to avoid context overload:
+### Project Documentation
 
 ```markdown
-**High-Value References:**
-- [Architecture Guide](docs/architecture.md) - System design and patterns
-- [API Standards](docs/api-guidelines.md) - REST/GraphQL standards
-- [Security Patterns](docs/security.md) - Security implementation guide
-- [Testing Guide](docs/testing.md) - Testing strategies and patterns
-- [Performance Guide](docs/performance.md) - Optimization techniques
+**Implementation Guides:**
+- [IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md) - Complete architecture
+- [IOS_FLUTTER_DEVELOPMENT_GUIDE.md](docs/IOS_FLUTTER_DEVELOPMENT_GUIDE.md) - iOS integration
+- [ANDROID_FLUTTER_DEVELOPMENT_GUIDE.md](docs/ANDROID_FLUTTER_DEVELOPMENT_GUIDE.md) - Android integration
+- [API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md) - Server API specs
 ```
 
-### Context-Aware Usage
+### Development Context
 
 ```text
-For [SPECIFIC_TASK] implementation:
-1. Apply basic patterns from these instructions
-2. Reference [SPECIFIC_DOC] for advanced patterns:
-   - Section X: [Specific advanced pattern]
-   - Section Y: [Complex implementation details]
-   - Section Z: [Edge cases and solutions]
+For sensor integration:
+1. Check IMPLEMENTATION_PLAN.md for domain architecture
+2. Use iOS/Android guides for platform-specific implementation
+3. Reference instruction files for code patterns and testing
+4. Apply security-first principles for all external interfaces
 ```
 
 ## 🤖 AI Assistant Optimization
 
-### AI Assistance Guidelines
+### Room-O-Matic AI Assistance Guidelines
 
 ```text
-- Provide domain context when requesting business logic
-- Always request comprehensive error handling
-- Ask for test generation alongside implementation
-- Request security considerations for external-facing code
-- Include performance considerations for data processing
-- Validate generated code against project patterns
+- Prioritize security-first implementation for all sensor data
+- Always include error handling for platform channel calls
+- Generate tests alongside sensor integration code
+- Consider device capabilities and graceful degradation
+- Include permission checks for camera/microphone/location
+- Optimize for battery life and memory usage
+- Follow Clean Architecture patterns with proper layer separation
 ```
 
-### Persona-Based Development Integration
+### Flutter Development Context
 
 ```text
-When using AI assistance, consider these specialized contexts:
-- Requirements Gathering: Focus on user stories and acceptance criteria
-- Technical Design: Emphasize architecture patterns and system design
-- Implementation: Follow coding standards and best practices
-- Testing: Comprehensive test coverage and quality assurance
-- Code Review: Security, performance, and maintainability focus
-- Debugging: Problem identification and solution strategies
+- State Management: Use Riverpod for reactive state
+- Navigation: Go Router for type-safe routing
+- Data Models: Freezed for immutable data classes
+- Code Generation: Build Runner for serialization
+- Platform Integration: Method channels for native features
+- Testing: Mockito for mocking, Golden tests for UI
 ```
 
-### Model Context Protocol (MCP) Integration
+### Sensor-Specific Development
 
 ```text
-Enhanced AI capabilities through MCP:
-- Filesystem access for project understanding
-- Git integration for version control context
-- External tool integration (linters, formatters, etc.)
-- Custom domain-specific tools and knowledge bases
+- LiDAR: ARKit (iOS) and ToF sensors (Android)
+- Camera: AVFoundation (iOS) and CameraX (Android)
+- Audio: Sonar implementation with AVAudioEngine/AudioManager
+- Motion: Core Motion (iOS) and SensorManager (Android)
+- Location: Core Location and FusedLocationProvider
+- Security: LocalAuthentication and BiometricPrompt
+```
+### Success Metrics
+
+```text
+- Sensor accuracy: ±2cm for distance measurements
+- Battery life: >4 hours continuous scanning
+- App size: <100MB total download
+- Startup time: <3 seconds cold start
+- Frame rate: 60fps for AR overlay
+- Test coverage: >85% overall, 100% security/sensors
+- Security: Zero critical vulnerabilities
 ```
 
-## 🔧 Tool Integration
+### Quick Commands
 
-### Development Tools
+```bash
+# Flutter Development
+flutter run                      # Debug mode
+flutter test --coverage         # Run tests with coverage
+flutter build apk --release     # Android release build
+flutter build ios --release     # iOS release build
 
-```text
-[CUSTOMIZE]: List your specific tools
-- Code Formatter: [prettier/gofmt/black/etc.]
-- Linter: [eslint/golangci-lint/flake8/etc.]
-- Type Checker: [TypeScript/mypy/etc.]
-- Build Tool: [webpack/make/gradle/etc.]
-- Package Manager: [npm/go mod/pip/etc.]
-```
+# Code Generation
+dart run build_runner build     # Generate code (Freezed, etc.)
+dart run build_runner watch     # Watch for changes
 
-### CI/CD Integration
-
-```text
-- Automated testing on all branches
-- Code quality checks (formatting, linting, security)
-- Test coverage reporting and enforcement
-- Security vulnerability scanning
-- Performance benchmarking
-- Documentation generation and validation
-```
-
-## 🎯 Success Metrics
-
-### Code Quality Metrics
-
-```text
-- Test Coverage: [X]% minimum
-- Code Duplication: <[X]%
-- Cyclomatic Complexity: <[X] per function
-- Technical Debt Ratio: <[X]%
-```
-
-### Performance Metrics
-
-```text
-- Response Time: <[X]ms for API endpoints
-- Throughput: [X] requests/second minimum
-- Memory Usage: <[X]MB baseline
-- Database Query Time: <[X]ms average
-```
-
-### Security Metrics
-
-```text
-- Zero high/critical security vulnerabilities
-- All external inputs validated and sanitized
-- Authentication required for all protected resources
-- Audit logging for all sensitive operations
-```
-
-## 🚦 Quality Gates
-
-### Pre-Commit Requirements
-
-```text
-- All tests pass
-- Code coverage thresholds met
-- No linting errors
-- Security scan passes
-- Documentation updated
-```
-
-### Pre-Deploy Requirements
-
-```text
-- Full integration test suite passes
-- Performance benchmarks met
-- Security audit completed
-- Infrastructure readiness verified
-- Rollback plan documented
+# Analysis & Quality
+dart format .                   # Format code
+dart analyze                    # Static analysis
+flutter doctor                  # Check setup
 ```
 
 ---
 
-## 🛠️ Customization Checklist
-
-Before using this template:
-
-- [ ] Replace all `[CUSTOMIZE]` sections with project-specific information
-- [ ] Update directory structure to match your project layout
-- [ ] Adapt naming conventions to your chosen language
-- [ ] Configure testing frameworks and coverage requirements
-- [ ] Set domain-specific security requirements
-- [ ] Configure performance metrics and optimization patterns
-- [ ] Set up CI/CD pipeline requirements
-- [ ] Create documentation reference system
-- [ ] Configure development tools and integrations
-- [ ] Set success metrics and quality gates
-
-**This template provides the foundation for maximum GitHub Copilot effectiveness across any programming language or project type.**
+**This configuration optimizes GitHub Copilot for Room-O-Matic Mobile development with Flutter, native platform integration, and security-first sensor data collection.**
