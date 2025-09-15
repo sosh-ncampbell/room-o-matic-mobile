@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room-O-Matic Retro Business Design System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            /* Primary Colors */
+            --primary-red: #B91C1C;
+            --charcoal-gray: #374151;
+            --paper-white: #FAFAFA;
+            
+            /* Secondary Colors */
+            --off-white: #F9FAFB;
+            --cream-white: #FEFDF8;
+            --light-gray: #E5E7EB;
+            --medium-gray: #9CA3AF;
+            --dark-gray: #4B5563;
+            
+            /* Accent Colors */
+            --accent-gold: #D97706;
+            --success-green: #10B981;
+            --warning-red: #EF4444;
+            --info-blue: #3B82F6;
+            
+            /* Spacing */
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-xxl: 48px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--paper-white);
+            color: var(--charcoal-gray);
+            line-height: 1.5;
+        }
+
+        .app-bar {
+            background: var(--primary-red);
+            color: white;
+            padding: var(--space-md) var(--space-lg);
+            box-shadow: 0 2px 4px rgba(55, 65, 81, 0.1);
+        }
+
+        .app-bar h1 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .app-bar .subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-lg);
+        }
+
+        .card {
+            background: var(--off-white);
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: var(--space-lg);
+            box-shadow: 0 1px 2px rgba(55, 65, 81, 0.1);
+        }
+
+        .card h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--charcoal-gray);
+            margin-bottom: var(--space-sm);
+        }
+
+        .card .subtitle {
+            font-size: 12px;
+            color: var(--medium-gray);
+            margin-bottom: var(--space-md);
+        }
+
+        .button {
+            padding: var(--space-md) var(--space-lg);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            cursor: pointer;
+            transition: all 150ms ease-in-out;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .button:active {
+            transform: scale(0.95);
+        }
+
+        .button-primary {
+            background: var(--primary-red);
+            color: white;
+            box-shadow: 0 1px 1px rgba(55, 65, 81, 0.1);
+        }
+
+        .button-outline {
+            background: transparent;
+            color: var(--primary-red);
+            border: 1.5px solid var(--primary-red);
+        }
+
+        .button-danger {
+            background: var(--warning-red);
+            color: white;
+            box-shadow: 0 1px 1px rgba(55, 65, 81, 0.1);
+        }
+
+        .button-text {
+            background: transparent;
+            color: var(--primary-red);
+            padding: 12px var(--space-md);
+        }
+
+        .text-field {
+            width: 100%;
+            margin-bottom: var(--space-md);
+        }
+
+        .text-field label {
+            display: block;
+            font-size: 14px;
+            color: var(--charcoal-gray);
+            font-weight: 400;
+            margin-bottom: var(--space-sm);
+        }
+
+        .text-field input {
+            width: 100%;
+            padding: var(--space-md);
+            background: var(--off-white);
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            color: var(--charcoal-gray);
+            transition: all 200ms ease-in-out;
+        }
+
+        .text-field input:focus {
+            outline: none;
+            border: 2px solid var(--primary-red);
+            background: var(--paper-white);
+            box-shadow: 0 2px 8px rgba(185, 28, 28, 0.2);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid;
+        }
+
+        .status-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-green);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .status-premium {
+            background: rgba(217, 119, 6, 0.1);
+            color: var(--accent-gold);
+            border-color: rgba(217, 119, 6, 0.3);
+        }
+
+        .status-warning {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--warning-red);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .status-info {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info-blue);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .measurement-display {
+            background: var(--off-white);
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: var(--space-md);
+        }
+
+        .measurement-display h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--charcoal-gray);
+            margin-bottom: var(--space-md);
+        }
+
+        .measurement-value {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            margin-bottom: var(--space-xs);
+        }
+
+        .measurement-value .value {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-red);
+        }
+
+        .measurement-value .unit {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .measurement-accuracy {
+            font-size: 11px;
+            color: var(--success-green);
+            margin-bottom: var(--space-sm);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-md);
+            margin: var(--space-lg) 0;
+        }
+
+        .compact-measurement {
+            background: var(--off-white);
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .compact-measurement h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--charcoal-gray);
+            margin-bottom: var(--space-sm);
+        }
+
+        .compact-measurement .value {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-red);
+        }
+
+        .compact-measurement .unit {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--dark-gray);
+            margin-left: 2px;
+        }
+
+        .material-icons {
+            font-size: 16px;
+        }
+
+        .buttons-demo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .badges-demo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .demo-section {
+            margin: var(--space-xxl) 0;
+        }
+
+        .demo-section h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            color: var(--charcoal-gray);
+            margin-bottom: var(--space-lg);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-bar">
+        <h1>Room-O-Matic Professional</h1>
+        <div class="subtitle">Retro Business Design System</div>
+    </div>
+
+    <div class="container">
+        <div class="demo-section">
+            <h1>🎨 Retro Business Design System</h1>
+            
+            <div class="card">
+                <h2>Welcome to Room-O-Matic</h2>
+                <div class="subtitle">Professional room measurement with retro business styling</div>
+                
+                <p style="margin-bottom: 16px;">
+                    Experience precision measurement with our sophisticated retro business aesthetic. 
+                    This design system conveys professional authority, technical precision, and business heritage.
+                </p>
+                
+                <div class="badges-demo">
+                    <div class="status-badge status-premium">
+                        <span class="material-icons">star</span>
+                        Pro Version
+                    </div>
+                    <div class="status-badge status-success">
+                        <span class="material-icons">verified</span>
+                        Active
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Primary Room Area</h2>
+                <div class="subtitle">Large measurement display</div>
+                
+                <div class="measurement-display">
+                    <h3>Room Area</h3>
+                    <div class="measurement-value">
+                        <span class="value">142.5</span>
+                        <span class="unit">m²</span>
+                    </div>
+                    <div class="measurement-accuracy">±2.1 cm accuracy</div>
+                    <div class="status-badge status-success">
+                        <span class="material-icons">verified</span>
+                        Verified
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Measurement Grid</h2>
+                <div class="subtitle">Compact measurement displays</div>
+                
+                <div class="grid">
+                    <div class="compact-measurement">
+                        <h4>Perimeter</h4>
+                        <span class="value">48.2</span><span class="unit">m</span>
+                    </div>
+                    <div class="compact-measurement">
+                        <h4>Height</h4>
+                        <span class="value">2.8</span><span class="unit">m</span>
+                    </div>
+                    <div class="compact-measurement">
+                        <h4>Volume</h4>
+                        <span class="value">399.0</span><span class="unit">m³</span>
+                    </div>
+                    <div class="compact-measurement">
+                        <h4>Wall Area</h4>
+                        <span class="value">134.4</span><span class="unit">m²</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Component Showcase</h2>
+                <div class="subtitle">Interactive retro business components</div>
+                
+                <div class="text-field">
+                    <label for="email">Business Email</label>
+                    <input type="email" id="email" placeholder="you@company.com">
+                </div>
+                
+                <div class="text-field">
+                    <label for="search">Search Projects</label>
+                    <input type="search" id="search" placeholder="Search projects...">
+                </div>
+                
+                <div class="buttons-demo">
+                    <button class="button button-primary">
+                        <span class="material-icons">scanner</span>
+                        Start Scan
+                    </button>
+                    <button class="button button-outline">
+                        <span class="material-icons">history</span>
+                        View History
+                    </button>
+                    <button class="button button-danger">
+                        <span class="material-icons">delete</span>
+                        Delete Project
+                    </button>
+                    <button class="button button-text">
+                        <span class="material-icons">help</span>
+                        Learn More
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Status Indicators</h2>
+                <div class="subtitle">Professional status communication</div>
+                
+                <div class="badges-demo">
+                    <div class="status-badge status-success">
+                        <span class="material-icons">check_circle</span>
+                        Scan Complete
+                    </div>
+                    <div class="status-badge status-premium">
+                        <span class="material-icons">star</span>
+                        Pro Feature
+                    </div>
+                    <div class="status-badge status-warning">
+                        <span class="material-icons">battery_alert</span>
+                        Low Battery
+                    </div>
+                    <div class="status-badge status-info">
+                        <span class="material-icons">access_time</span>
+                        Trial Mode
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactivity to demonstrate the design system
+        document.querySelectorAll('.button').forEach(button => {
+            button.addEventListener('click', function() {
+                const text = this.textContent.trim();
+                const statusText = `${text} action triggered`;
+                
+                // Create a temporary notification
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: var(--primary-red);
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    z-index: 1000;
+                    transition: all 300ms ease-in-out;
+                `;
+                notification.textContent = statusText;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 2000);
+            });
+        });
+
+        // Demonstrate focus states on inputs
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', function() {
+                const label = this.parentElement.querySelector('label');
+                if (label) {
+                    label.style.color = 'var(--primary-red)';
+                    label.style.fontWeight = '600';
+                }
+            });
+
+            input.addEventListener('blur', function() {
+                const label = this.parentElement.querySelector('label');
+                if (label) {
+                    label.style.color = 'var(--charcoal-gray)';
+                    label.style.fontWeight = '400';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
